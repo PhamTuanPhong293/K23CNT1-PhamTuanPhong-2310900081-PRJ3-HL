@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Customer Support Management')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="display-4">
+            Customer Support Management System
+        </h1>
+
+        <p class="lead">
+            Hệ thống quản lý khách hàng và yêu cầu hỗ trợ.
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Quản lý khách hàng -->
+        <div class="col-md-6">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h3>Quản lý khách hàng</h3>
+
+                    <p>
+                        Thêm, sửa, xóa và xem danh sách khách hàng.
+                    </p>
+
+                    <a th:href="@{/customers}"
+                       class="btn btn-primary">
+
+                        Danh sách khách hàng
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quản lý Ticket -->
+        <div class="col-md-6">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h3>Quản lý Ticket</h3>
+
+                    <p>
+                        Xem các yêu cầu hỗ trợ của khách hàng.
+                    </p>
+
+                    <a th:href="@{/tickets}"
+                       class="btn btn-success">
+
+                        Danh sách Ticket
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

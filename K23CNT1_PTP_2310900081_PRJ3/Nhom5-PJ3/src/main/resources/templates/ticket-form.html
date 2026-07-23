@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Ticket Form')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h3 th:text="${ticket.id == null ? 'Tạo Ticket' : 'Cập nhật Ticket'}"></h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/tickets/save}"
+                  th:object="${ticket}"
+                  method="post">
+
+                <!-- ID -->
+                <input type="hidden" th:field="*{id}">
+
+                <!-- Customer -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Khách hàng
+                    </label>
+
+                    <select class="form-select"
+                            th:field="*{customer}"
+                            required>
+
+                        <option value="">
+                            -- Chọn khách hàng --
+                        </option>
+
+                        <option th:each="c : ${customers}"
+                                th:value="${c.id}"
+                                th:text="${c.fullName}">
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Title -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Tiêu đề
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{title}"
+                           required>
+
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nội dung
+                    </label>
+
+                    <textarea class="form-control"
+                              rows="5"
+                              th:field="*{description}"
+                              required>
+                    </textarea>
+
+                </div>
+
+                <!-- Status -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Trạng thái
+                    </label>
+
+                    <select class="form-select"
+                            th:field="*{status}">
+
+                        <option value="OPEN">
+                            OPEN
+                        </option>
+
+                        <option value="PROCESSING">
+                            PROCESSING
+                        </option>
+
+                        <option value="CLOSED">
+                            CLOSED
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    Lưu
+
+                </button>
+
+                <a th:href="@{/tickets}"
+                   class="btn btn-secondary">
+
+                    Quay lại
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>
