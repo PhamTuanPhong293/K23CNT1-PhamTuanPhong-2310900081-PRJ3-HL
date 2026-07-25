@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: header('Ticket Form')"></head>
+<head th:replace="fragments/header :: header('Tạo Ticket')"></head>
 
 <body>
 
@@ -12,9 +12,7 @@
     <div class="card shadow">
 
         <div class="card-header bg-success text-white">
-
-            <h3 th:text="${ticket.id == null ? 'Tạo Ticket' : 'Cập nhật Ticket'}"></h3>
-
+            <h3>Tạo yêu cầu hỗ trợ</h3>
         </div>
 
         <div class="card-body">
@@ -23,10 +21,7 @@
                   th:object="${ticket}"
                   method="post">
 
-                <!-- ID -->
-                <input type="hidden" th:field="*{id}">
-
-                <!-- Customer -->
+                <!-- Khách hàng -->
                 <div class="mb-3">
 
                     <label class="form-label">
@@ -34,23 +29,23 @@
                     </label>
 
                     <select class="form-select"
-                            th:field="*{customer}"
+                            name="customerId"
                             required>
 
                         <option value="">
                             -- Chọn khách hàng --
                         </option>
 
-                        <option th:each="c : ${customers}"
-                                th:value="${c.id}"
-                                th:text="${c.fullName}">
+                        <option th:each="customer : ${customers}"
+                                th:value="${customer.id}"
+                                th:text="${customer.fullName}">
                         </option>
 
                     </select>
 
                 </div>
 
-                <!-- Title -->
+                <!-- Tiêu đề -->
                 <div class="mb-3">
 
                     <label class="form-label">
@@ -64,22 +59,57 @@
 
                 </div>
 
-                <!-- Description -->
+                <!-- Danh mục -->
                 <div class="mb-3">
 
                     <label class="form-label">
-                        Nội dung
+                        Danh mục
                     </label>
 
-                    <textarea class="form-control"
-                              rows="5"
-                              th:field="*{description}"
-                              required>
-                    </textarea>
+                    <select class="form-select"
+                            th:field="*{category}">
+
+                        <option value="Hỗ trợ chung">
+                            Hỗ trợ chung
+                        </option>
+
+                        <option value="Kỹ thuật">
+                            Kỹ thuật
+                        </option>
+
+                        <option value="Thanh toán">
+                            Thanh toán
+                        </option>
+
+                        <option value="Tài khoản">
+                            Tài khoản
+                        </option>
+
+                    </select>
 
                 </div>
 
-                <!-- Status -->
+                <!-- Độ ưu tiên -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Độ ưu tiên
+                    </label>
+
+                    <select class="form-select"
+                            th:field="*{priority}">
+
+                        <option value="Thấp">Thấp</option>
+
+                        <option value="Trung bình">Trung bình</option>
+
+                        <option value="Cao">Cao</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Trạng thái -->
                 <div class="mb-3">
 
                     <label class="form-label">
@@ -105,10 +135,37 @@
 
                 </div>
 
-                <button type="submit"
-                        class="btn btn-success">
+                <!-- Người xử lý -->
+                <div class="mb-3">
 
-                    Lưu
+                    <label class="form-label">
+                        Nhân viên phụ trách
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{assignedTo}"
+                           placeholder="Nhập tên nhân viên">
+
+                </div>
+
+                <!-- Nội dung -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nội dung
+                    </label>
+
+                    <textarea class="form-control"
+                              rows="5"
+                              th:field="*{description}">
+                    </textarea>
+
+                </div>
+
+                <button class="btn btn-success">
+
+                    Lưu Ticket
 
                 </button>
 

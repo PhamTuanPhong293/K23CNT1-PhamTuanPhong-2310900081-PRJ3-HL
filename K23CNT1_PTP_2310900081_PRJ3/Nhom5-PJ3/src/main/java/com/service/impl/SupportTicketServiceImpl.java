@@ -1,19 +1,23 @@
 package com.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.model.SupportTicket;
 import com.repository.SupportTicketRepository;
 import com.service.SupportTicketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SupportTicketServiceImpl implements SupportTicketService {
 
     @Autowired
     private SupportTicketRepository ticketRepository;
+
+    @Override
+    public SupportTicket createTicket(SupportTicket ticket) {
+        return ticketRepository.save(ticket);
+    }
 
     @Override
     public List<SupportTicket> getAllTickets() {
@@ -26,7 +30,7 @@ public class SupportTicketServiceImpl implements SupportTicketService {
     }
 
     @Override
-    public SupportTicket saveTicket(SupportTicket ticket) {
+    public SupportTicket updateTicket(SupportTicket ticket) {
         return ticketRepository.save(ticket);
     }
 
@@ -35,4 +39,18 @@ public class SupportTicketServiceImpl implements SupportTicketService {
         ticketRepository.deleteById(id);
     }
 
+    @Override
+    public List<SupportTicket> getTicketsByStatus(String status) {
+        return ticketRepository.findByStatus(status);
+    }
+
+    @Override
+    public List<SupportTicket> getTicketsByCategory(String category) {
+        return ticketRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<SupportTicket> getTicketsByPriority(String priority) {
+        return ticketRepository.findByPriority(priority);
+    }
 }

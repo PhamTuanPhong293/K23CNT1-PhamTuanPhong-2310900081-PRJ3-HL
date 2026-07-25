@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Quản lý nhân viên')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h2>Danh sách nhân viên</h2>
+
+        <a th:href="@{/staff/new}"
+           class="btn btn-success">
+
+            + Thêm nhân viên
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Họ tên</th>
+
+            <th>Email</th>
+
+            <th>Số điện thoại</th>
+
+            <th>Chức vụ</th>
+
+            <th>Thao tác</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="staff : ${staffList}">
+
+            <td th:text="${staff.id}"></td>
+
+            <td th:text="${staff.fullName}"></td>
+
+            <td th:text="${staff.email}"></td>
+
+            <td th:text="${staff.phone}"></td>
+
+            <td th:text="${staff.position}"></td>
+
+            <td>
+
+                <a th:href="@{'/staff/edit/' + ${staff.id}}"
+                   class="btn btn-warning btn-sm">
+
+                    Sửa
+
+                </a>
+
+                <a th:href="@{'/staff/delete/' + ${staff.id}}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?')">
+
+                    Xóa
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

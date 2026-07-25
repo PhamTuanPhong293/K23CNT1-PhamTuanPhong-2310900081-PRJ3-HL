@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Phản hồi Ticket')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-info text-white">
+
+            <h3>Thêm phản hồi Ticket</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/replies/save}"
+                  th:object="${reply}"
+                  method="post">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Ticket
+
+                    </label>
+
+                    <select class="form-select"
+                            th:field="*{ticket}"
+                            required>
+
+                        <option th:each="ticket : ${tickets}"
+                                th:value="${ticket.id}"
+                                th:text="${ticket.title}">
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Nhân viên
+
+                    </label>
+
+                    <select class="form-select"
+                            th:field="*{staff}"
+                            required>
+
+                        <option th:each="staff : ${staffList}"
+                                th:value="${staff.id}"
+                                th:text="${staff.fullName}">
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Nội dung phản hồi
+
+                    </label>
+
+                    <textarea class="form-control"
+                              rows="5"
+                              th:field="*{replyContent}"
+                              required>
+
+                    </textarea>
+
+                </div>
+
+                <button class="btn btn-info">
+
+                    Lưu phản hồi
+
+                </button>
+
+                <a th:href="@{/replies}"
+                   class="btn btn-secondary">
+
+                    Quay lại
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

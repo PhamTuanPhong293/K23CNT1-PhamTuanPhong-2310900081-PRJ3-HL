@@ -1,47 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: header('Customer Support Management')"></head>
+<head th:replace="fragments/header :: header('Dashboard')"></head>
 
-<body>
+<body class="bg-light">
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container mt-4">
 
-    <div class="text-center mb-5">
+    <div class="mb-4">
 
-        <h1 class="display-4">
+        <h2 class="fw-bold">
+
+            Dashboard
+
+        </h2>
+
+        <p class="text-secondary">
+
             Customer Support Management System
-        </h1>
 
-        <p class="lead">
-            Hệ thống quản lý khách hàng và yêu cầu hỗ trợ.
         </p>
 
     </div>
 
-    <div class="row g-4">
+    <div class="row">
 
-        <!-- Quản lý khách hàng -->
-        <div class="col-md-6">
+        <div class="col-md-3 mb-3">
 
-            <div class="card shadow h-100">
+            <div class="card shadow border-0 bg-primary text-white">
 
-                <div class="card-body text-center">
+                <div class="card-body">
 
-                    <h3>Quản lý khách hàng</h3>
+                    <h5>Tổng khách hàng</h5>
 
-                    <p>
-                        Thêm, sửa, xóa và xem danh sách khách hàng.
-                    </p>
+                    <h1 th:text="${customerCount}">0</h1>
 
-                    <a th:href="@{/customers}"
-                       class="btn btn-primary">
-
-                        Danh sách khách hàng
-
-                    </a>
+                    <i class="bi bi-people-fill fs-1"></i>
 
                 </div>
 
@@ -49,25 +45,157 @@
 
         </div>
 
-        <!-- Quản lý Ticket -->
-        <div class="col-md-6">
+        <div class="col-md-3 mb-3">
 
-            <div class="card shadow h-100">
+            <div class="card shadow border-0 bg-success text-white">
 
-                <div class="card-body text-center">
+                <div class="card-body">
 
-                    <h3>Quản lý Ticket</h3>
+                    <h5>Ticket</h5>
+
+                    <h1 th:text="${ticketCount}">0</h1>
+
+                    <i class="bi bi-ticket-fill fs-1"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-0 bg-warning text-dark">
+
+                <div class="card-body">
+
+                    <h5>Nhân viên</h5>
+
+                    <h1 th:text="${staffCount}">0</h1>
+
+                    <i class="bi bi-person-workspace fs-1"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-0 bg-danger text-white">
+
+                <div class="card-body">
+
+                    <h5>FAQ</h5>
+
+                    <h1 th:text="${faqCount}">0</h1>
+
+                    <i class="bi bi-question-circle-fill fs-1"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Ticket theo trạng thái
+
+                </div>
+
+                <div class="card-body">
+
+                    <h6>OPEN</h6>
+
+                    <div class="progress mb-3">
+
+                        <div class="progress-bar bg-success"
+
+                             role="progressbar"
+
+                             th:style="'width:'+${openPercent}+'%'"
+
+                             th:text="${openCount}">
+
+                        </div>
+
+                    </div>
+
+                    <h6>PROCESSING</h6>
+
+                    <div class="progress mb-3">
+
+                        <div class="progress-bar bg-warning"
+
+                             role="progressbar"
+
+                             th:style="'width:'+${processingPercent}+'%'"
+
+                             th:text="${processingCount}">
+
+                        </div>
+
+                    </div>
+
+                    <h6>CLOSED</h6>
+
+                    <div class="progress">
+
+                        <div class="progress-bar bg-danger"
+
+                             role="progressbar"
+
+                             th:style="'width:'+${closedPercent}+'%'"
+
+                             th:text="${closedCount}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    Thông tin
+
+                </div>
+
+                <div class="card-body">
 
                     <p>
-                        Xem các yêu cầu hỗ trợ của khách hàng.
+
+                        <b>Người đăng nhập:</b>
+
                     </p>
 
-                    <a th:href="@{/tickets}"
-                       class="btn btn-success">
+                    <p th:text="${session.loggedUser.fullName}"></p>
 
-                        Danh sách Ticket
+                    <hr>
 
-                    </a>
+                    <p>
+
+                        Hệ thống quản lý chăm sóc khách hàng Devmaster.
+
+                    </p>
 
                 </div>
 
@@ -82,4 +210,5 @@
 <div th:replace="fragments/footer :: footer"></div>
 
 </body>
+
 </html>

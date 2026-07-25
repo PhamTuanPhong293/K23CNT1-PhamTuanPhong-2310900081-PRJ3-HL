@@ -12,7 +12,10 @@ public interface SupportTicketRepository extends JpaRepository<SupportTicket, Lo
     // Tìm theo trạng thái
     List<SupportTicket> findByStatus(String status);
 
-    // Tìm theo tiêu đề
-    List<SupportTicket> findByTitleContainingIgnoreCase(String title);
+    // Tìm theo danh mục
+    List<SupportTicket> findByCategory(String category);
+
+    // Tìm theo độ ưu tiên
+    List<SupportTicket> findByPriority(String priority);
 
 }

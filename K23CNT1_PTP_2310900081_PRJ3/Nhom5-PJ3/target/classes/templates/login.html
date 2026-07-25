@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Đăng nhập')"></head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+
+                    <h3>Đăng nhập hệ thống</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div th:if="${error}"
+                         class="alert alert-danger"
+                         th:text="${error}">
+                    </div>
+
+                    <form th:action="@{/login}"
+                          th:object="${user}"
+                          method="post">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Tên đăng nhập
+                            </label>
+
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    th:field="*{username}"
+                                    required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Mật khẩu
+                            </label>
+
+                            <input
+                                    type="password"
+                                    class="form-control"
+                                    th:field="*{password}"
+                                    required>
+
+                        </div>
+
+                        <button
+                                type="submit"
+                                class="btn btn-primary w-100">
+
+                            Đăng nhập
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -174,3 +174,79 @@ INNER JOIN customers c
 
 ON st.customer_id = c.id;
 GO
+
+USE CustomerSupportDB;
+GO
+
+ALTER TABLE support_tickets
+ADD
+    category NVARCHAR(100) NULL,
+    priority NVARCHAR(20) NOT NULL DEFAULT N'Trung bình',
+    assigned_to NVARCHAR(100) NULL,
+    updated_at DATETIME NULL;
+GO
+
+UPDATE support_tickets
+SET
+    category = N'Hỗ trợ chung',
+    assigned_to = N'Chưa phân công',
+    updated_at = created_at
+WHERE category IS NULL;
+GO
+
+ALTER TABLE customers
+ADD created_at DATETIME NOT NULL DEFAULT GETDATE();
+GO
+
+UPDATE customers
+SET created_at = GETDATE()
+WHERE created_at IS NULL;
+GO
+
+-- ===========================================
+-- TẠO BẢNG USERS
+-- ===========================================
+
+CREATE TABLE users
+(
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+
+    username NVARCHAR(50) NOT NULL UNIQUE,
+
+    password NVARCHAR(100) NOT NULL,
+
+    full_name NVARCHAR(100) NOT NULL,
+
+    role NVARCHAR(20) NOT NULL,
+
+    created_at DATETIME DEFAULT GETDATE()
+);
+GO
+
+
+INSERT INTO users
+(username,password,full_name,role)
+
+VALUES
+
+(
+'admin',
+'123456',
+N'Quản trị viên',
+'ADMIN'
+),
+
+(
+'staff01',
+'123456',
+N'Nguyễn Văn An',
+'STAFF'
+),
+
+(
+'staff02',
+'123456',
+N'Trần Thị Bình',
+'STAFF'
+);
+GO

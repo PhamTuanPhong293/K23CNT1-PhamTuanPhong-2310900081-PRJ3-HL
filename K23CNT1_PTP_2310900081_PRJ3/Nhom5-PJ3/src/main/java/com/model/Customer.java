@@ -1,6 +1,7 @@
 package com.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customers")
@@ -10,17 +11,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "address", nullable = false)
     private String address;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public Customer() {
     }
@@ -30,7 +31,12 @@ public class Customer {
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.createdAt = LocalDateTime.now();
     }
+
+    //=========================
+    // Getter & Setter
+    //=========================
 
     public Long getId() {
         return id;
@@ -70,6 +76,14 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Quản lý FAQ')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h2>Danh sách câu hỏi thường gặp</h2>
+
+        <a th:href="@{/faq/new}"
+           class="btn btn-success">
+
+            + Thêm FAQ
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Câu hỏi</th>
+
+            <th>Câu trả lời</th>
+
+            <th>Thao tác</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="faq : ${faqList}">
+
+            <td th:text="${faq.id}"></td>
+
+            <td th:text="${faq.question}"></td>
+
+            <td th:text="${faq.answer}"></td>
+
+            <td>
+
+                <a th:href="@{'/faq/edit/' + ${faq.id}}"
+                   class="btn btn-warning btn-sm">
+
+                    Sửa
+
+                </a>
+
+                <a th:href="@{'/faq/delete/' + ${faq.id}}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+
+                    Xóa
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

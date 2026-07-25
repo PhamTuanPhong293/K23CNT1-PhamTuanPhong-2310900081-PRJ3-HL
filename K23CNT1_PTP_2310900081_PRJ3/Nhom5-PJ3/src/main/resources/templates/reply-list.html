@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Danh sách phản hồi')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h2>Danh sách phản hồi Ticket</h2>
+
+        <a th:href="@{/replies/new}"
+           class="btn btn-success">
+
+            + Thêm phản hồi
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-primary">
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Ticket</th>
+
+            <th>Nhân viên</th>
+
+            <th>Nội dung</th>
+
+            <th>Ngày phản hồi</th>
+
+            <th>Thao tác</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="reply : ${replyList}">
+
+            <td th:text="${reply.id}"></td>
+
+            <td th:text="${reply.ticket.title}"></td>
+
+            <td th:text="${reply.staff.fullName}"></td>
+
+            <td th:text="${reply.replyContent}"></td>
+
+            <td th:text="${reply.replyDate}"></td>
+
+            <td>
+
+                <a th:href="@{'/replies/delete/' + ${reply.id}}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?')">
+
+                    Xóa
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

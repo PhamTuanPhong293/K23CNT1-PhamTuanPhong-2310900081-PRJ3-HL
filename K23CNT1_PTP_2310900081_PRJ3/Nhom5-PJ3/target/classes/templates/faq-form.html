@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header('Thêm FAQ')"></head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h3>Thông tin FAQ</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/faq/save}"
+                  th:object="${faq}"
+                  method="post">
+
+                <input type="hidden"
+                       th:field="*{id}">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Câu hỏi
+
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{question}"
+                           required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Câu trả lời
+
+                    </label>
+
+                    <textarea class="form-control"
+                              rows="6"
+                              th:field="*{answer}"
+                              required>
+                    </textarea>
+
+                </div>
+
+                <button class="btn btn-success">
+
+                    Lưu
+
+                </button>
+
+                <a th:href="@{/faq}"
+                   class="btn btn-secondary">
+
+                    Quay lại
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

@@ -1,21 +1,33 @@
 package com.service;
 
-import java.util.List;
-
 import com.model.SupportTicket;
+
+import java.util.List;
 
 public interface SupportTicketService {
 
-    // Lấy danh sách tất cả phiếu hỗ trợ
+    // Thêm Ticket
+    SupportTicket createTicket(SupportTicket ticket);
+
+    // Lấy tất cả Ticket
     List<SupportTicket> getAllTickets();
 
-    // Lấy phiếu hỗ trợ theo ID
+    // Tìm theo ID
     SupportTicket getTicketById(Long id);
 
-    // Thêm hoặc cập nhật phiếu hỗ trợ
-    SupportTicket saveTicket(SupportTicket ticket);
+    // Cập nhật Ticket
+    SupportTicket updateTicket(SupportTicket ticket);
 
-    // Xóa phiếu hỗ trợ
+    // Xóa Ticket
     void deleteTicket(Long id);
+
+    // Tìm theo trạng thái
+    List<SupportTicket> getTicketsByStatus(String status);
+
+    // Tìm theo danh mục
+    List<SupportTicket> getTicketsByCategory(String category);
+
+    // Tìm theo độ ưu tiên
+    List<SupportTicket> getTicketsByPriority(String priority);
 
 }
