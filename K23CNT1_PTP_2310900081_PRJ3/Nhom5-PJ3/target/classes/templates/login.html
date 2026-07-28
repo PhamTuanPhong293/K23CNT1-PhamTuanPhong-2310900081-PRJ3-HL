@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: header('Đăng nhập')"></head>
+<head th:replace="fragments/header :: header('Đăng nhập')">
+<link rel="stylesheet" th:href="@{/css/style.css}">
 
 <body class="bg-light">
 
@@ -26,47 +27,47 @@
                          th:text="${error}">
                     </div>
 
-                    <form th:action="@{/login}"
-                          th:object="${user}"
-                          method="post">
+                    <div class="login-container">
+                        <form th:action="@{/login}" method="post">
+                            <h2>🔐 Đăng nhập</h2>
+                            <!-- các input cũ giữ nguyên -->
+                            <div class="mb-3">
 
-                        <div class="mb-3">
+                                <label class="form-label">
+                                    Tên đăng nhập
+                                </label>
 
-                            <label class="form-label">
-                                Tên đăng nhập
-                            </label>
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        th:field="*{username}"
+                                        required>
 
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    th:field="*{username}"
-                                    required>
+                            </div>
 
-                        </div>
+                            <div class="mb-3">
 
-                        <div class="mb-3">
+                                <label class="form-label">
+                                    Mật khẩu
+                                </label>
 
-                            <label class="form-label">
-                                Mật khẩu
-                            </label>
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        th:field="*{password}"
+                                        required>
 
-                            <input
-                                    type="password"
-                                    class="form-control"
-                                    th:field="*{password}"
-                                    required>
+                            </div>
 
-                        </div>
+                            <button
+                                    type="submit"
+                                    class="btn btn-primary w-100">
 
-                        <button
-                                type="submit"
-                                class="btn btn-primary w-100">
+                                Đăng nhập
 
-                            Đăng nhập
-
-                        </button>
-
-                    </form>
+                            </button>
+                        </form>
+                    </div>
 
                 </div>
 
