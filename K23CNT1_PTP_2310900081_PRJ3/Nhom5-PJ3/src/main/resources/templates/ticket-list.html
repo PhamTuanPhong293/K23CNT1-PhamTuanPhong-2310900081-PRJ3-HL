@@ -7,97 +7,211 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="d-flex justify-content-between mb-3">
-
-        <h2>Danh sách Ticket</h2>
-
-        <a th:href="@{/tickets/new}"
-           class="btn btn-success">
-
-            + Thêm Ticket
-
+    <!-- Header với gradient -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <div>
+            <h2 class="fw-bold text-white mb-0">
+                <i class="bi bi-ticket-fill me-2"></i>Danh sách Ticket
+            </h2>
+            <p class="text-white-50 mb-0">Quản lý yêu cầu hỗ trợ khách hàng</p>
+        </div>
+        <a th:href="@{/tickets/new}" class="btn btn-light btn-lg shadow">
+            <i class="bi bi-plus-circle me-2 text-success"></i>Thêm Ticket
         </a>
-
     </div>
 
-    <table class="table table-bordered table-hover">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded">
 
-        <thead class="table-primary">
+        <div class="card-header py-3" style="background: #f5576c;">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-white">
+                    <i class="bi bi-table me-2"></i>Danh sách Ticket
+                </span>
+                <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                    <i class="bi bi-ticket me-1"></i>
+                    <span th:text="${#lists.size(tickets)}">0</span> Ticket
+                </span>
+            </div>
+        </div>
 
-        <tr>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;" class="text-center">#ID</th>
+                        <th>Khách hàng</th>
+                        <th>Tiêu đề</th>
+                        <th>Danh mục</th>
+                        <th style="width: 110px;">Ưu tiên</th>
+                        <th style="width: 120px;">Trạng thái</th>
+                        <th style="width: 150px;">Ngày tạo</th>
+                        <th>Nhân viên</th>
+                        <th style="width: 180px;" class="text-center">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket : ${tickets}">
+                        <td class="text-center fw-bold text-primary" th:text="${ticket.id}"></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle bg-primary me-2">
+                                    <span th:text="${#strings.substring(ticket.customer.fullName, 0, 1)}"></span>
+                                </div>
+                                <span th:text="${ticket.customer.fullName}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${ticket.title}"></td>
+                        <td>
+                            <span class="badge bg-info text-white px-3 py-2" th:text="${ticket.category}"></span>
+                        </td>
+                        <td>
+                                <span class="badge"
+                                      th:class="${ticket.priority == 'Cao' ? 'bg-danger' : (ticket.priority == 'Trung bình' ? 'bg-warning text-dark' : 'bg-success')}"
+                                      th:text="${ticket.priority}"></span>
+                        </td>
+                        <td>
+                                <span class="badge"
+                                      th:class="${ticket.status == 'OPEN' ? 'bg-success' : (ticket.status == 'PROCESSING' ? 'bg-warning text-dark' : 'bg-danger')}"
+                                      th:text="${ticket.status}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(ticket.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td>
+                            <span th:if="${ticket.assignedTo != null}" th:text="${ticket.assignedTo}"></span>
+                            <span th:if="${ticket.assignedTo == null}" class="text-muted">Chưa phân công</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{'/tickets/edit/' + ${ticket.id}}"
+                                   class="btn-action btn-edit">
+                                    <i class="bi bi-pencil"></i> Sửa
+                                </a>
+                                <a th:href="@{'/tickets/delete/' + ${ticket.id}}"
+                                   class="btn-action btn-delete"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa Ticket này?')">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(tickets)}">
+                        <td colspan="9" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox display-4 d-block mb-2"></i>
+                            Chưa có Ticket nào
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <th>ID</th>
-
-            <th>Khách hàng</th>
-
-            <th>Tiêu đề</th>
-
-            <th>Danh mục</th>
-
-            <th>Ưu tiên</th>
-
-            <th>Trạng thái</th>
-
-            <th>Ngày tạo</th>
-
-            <th>Nhân viên</th>
-
-            <th>Thao tác</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        <tr th:each="ticket : ${tickets}">
-
-            <td th:text="${ticket.id}"></td>
-
-            <td th:text="${ticket.customer.fullName}"></td>
-
-            <td th:text="${ticket.title}"></td>
-
-            <td th:text="${ticket.category}"></td>
-
-            <td th:text="${ticket.priority}"></td>
-
-            <td th:text="${ticket.status}"></td>
-
-            <td th:text="${ticket.createdAt}"></td>
-
-            <td th:text="${ticket.assignedTo}"></td>
-
-            <td>
-
-                <a th:href="@{'/tickets/edit/' + ${ticket.id}}"
-                   class="btn btn-warning btn-sm">
-
-                    Sửa
-
-                </a>
-
-                <a th:href="@{'/tickets/delete/' + ${ticket.id}}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Bạn có chắc chắn muốn xóa Ticket này?')">
-
-                    Xóa
-
-                </a>
-
-            </td>
-
-        </tr>
-
-        </tbody>
-
-    </table>
+        <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center py-3">
+            <span class="text-muted">
+                <i class="bi bi-ticket me-1 text-primary"></i>
+                Tổng số: <strong class="text-primary" th:text="${#lists.size(tickets)}">0</strong> Ticket
+            </span>
+            <span class="text-muted small">
+                <i class="bi bi-clock me-1"></i>
+                <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+            </span>
+        </div>
+    </div>
 
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<style>
+    .avatar-circle {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: #fff;
+        flex-shrink: 0;
+    }
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0,0,0,0.02);
+    }
+    .table tbody tr:hover {
+        background-color: rgba(250, 112, 154, 0.08);
+    }
+    .badge {
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 6px;
+    }
+
+    /* ===== BUTTON ACTION - GỌN ĐẸP ===== */
+    .btn-action {
+        padding: 4px 14px;
+        font-size: 0.78rem;
+        border-radius: 20px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .btn-action i {
+        font-size: 0.8rem;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    /* Nút Sửa - Màu xanh dương */
+    .btn-edit {
+        background: #0d6efd;
+        color: #fff;
+    }
+    .btn-edit:hover {
+        background: #0a58ca;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+    }
+
+    /* Nút Xóa - Màu đỏ */
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+    .btn-delete:hover {
+        background: #b02a37;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+    @media (max-width: 576px) {
+        .action-buttons {
+            flex-direction: column;
+            gap: 4px;
+        }
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
 
 </body>
 

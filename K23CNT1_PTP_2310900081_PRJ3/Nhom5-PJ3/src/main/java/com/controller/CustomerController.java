@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import com.model.Customer;
 import com.service.CustomerService;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
@@ -18,7 +21,20 @@ public class CustomerController {
     // Hiển thị danh sách khách hàng
     @GetMapping
     public String listCustomers(Model model) {
-        model.addAttribute("customers", customerService.getAllCustomers());
+        List<Customer> customers = customerService.getAllCustomers();
+
+        // DEBUG: Kiểm tra encoding
+        System.out.println("========== DEBUG ENCODING ==========");
+        for (Customer c : customers) {
+            System.out.println("ID: " + c.getId());
+            System.out.println("FullName: " + c.getFullName());
+            System.out.println("FullName Bytes: " + java.util.Arrays.toString(c.getFullName().getBytes(StandardCharsets.UTF_8)));
+            System.out.println("Email: " + c.getEmail());
+            System.out.println("-----------------------------------");
+        }
+        System.out.println("=====================================");
+
+        model.addAttribute("customers", customers);
         return "customer-list";
     }
 
@@ -32,6 +48,7 @@ public class CustomerController {
     // Lưu khách hàng
     @PostMapping("/save")
     public String saveCustomer(@ModelAttribute Customer customer) {
+        System.out.println("Saving customer: " + customer.getFullName());
         customerService.saveCustomer(customer);
         return "redirect:/customers";
     }

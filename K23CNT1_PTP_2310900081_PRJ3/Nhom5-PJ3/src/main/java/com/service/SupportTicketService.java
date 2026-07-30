@@ -6,13 +6,17 @@ import java.util.List;
 
 public interface SupportTicketService {
 
+    // =========================
+    // CRUD
+    // =========================
+
     // Thêm Ticket
     SupportTicket createTicket(SupportTicket ticket);
 
     // Lấy tất cả Ticket
     List<SupportTicket> getAllTickets();
 
-    // Tìm theo ID
+    // Tìm Ticket theo ID
     SupportTicket getTicketById(Long id);
 
     // Cập nhật Ticket
@@ -21,13 +25,33 @@ public interface SupportTicketService {
     // Xóa Ticket
     void deleteTicket(Long id);
 
-    // Tìm theo trạng thái
+    // =========================
+    // Tìm kiếm
+    // =========================
+
+    // Theo trạng thái
     List<SupportTicket> getTicketsByStatus(String status);
 
-    // Tìm theo danh mục
+    // Theo danh mục
     List<SupportTicket> getTicketsByCategory(String category);
 
-    // Tìm theo độ ưu tiên
+    // Theo độ ưu tiên
     List<SupportTicket> getTicketsByPriority(String priority);
+
+    // =========================
+    // Dashboard
+    // =========================
+
+    // Đếm Ticket OPEN
+    long countOpenTickets();
+
+    // Đếm Ticket PROCESSING
+    long countProcessingTickets();
+
+    // Đếm Ticket CLOSED
+    long countClosedTickets();
+
+    // Lấy 5 Ticket mới nhất
+    List<SupportTicket> getLatestTickets();
 
 }

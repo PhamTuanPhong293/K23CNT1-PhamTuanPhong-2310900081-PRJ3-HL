@@ -7,78 +7,186 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="d-flex justify-content-between mb-3">
-
-        <h2>Danh sách phản hồi Ticket</h2>
-
-        <a th:href="@{/replies/new}"
-           class="btn btn-success">
-
-            + Thêm phản hồi
-
+    <!-- Header với gradient -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <div>
+            <h2 class="fw-bold text-white mb-0">
+                <i class="bi bi-chat-left-text-fill me-2"></i>Danh sách phản hồi
+            </h2>
+            <p class="text-white-50 mb-0">Quản lý phản hồi cho các Ticket</p>
+        </div>
+        <a th:href="@{/replies/new}" class="btn btn-light btn-lg shadow">
+            <i class="bi bi-plus-circle me-2 text-success"></i>Thêm phản hồi
         </a>
-
     </div>
 
-    <table class="table table-bordered table-hover">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded">
 
-        <thead class="table-primary">
+        <div class="card-header py-3" style="background: #4facfe;">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-white">
+                    <i class="bi bi-table me-2"></i>Danh sách phản hồi
+                </span>
+                <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                    <i class="bi bi-chat-left-text me-1"></i>
+                    <span th:text="${#lists.size(replyList)}">0</span> phản hồi
+                </span>
+            </div>
+        </div>
 
-        <tr>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;" class="text-center">#ID</th>
+                        <th style="min-width: 150px;">Ticket</th>
+                        <th style="min-width: 140px;">Nhân viên</th>
+                        <th style="min-width: 250px;">Nội dung phản hồi</th>
+                        <th style="width: 160px;">Ngày phản hồi</th>
+                        <th style="width: 120px;" class="text-center">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reply : ${replyList}">
+                        <td class="text-center fw-bold text-primary" th:text="${reply.id}"></td>
+                        <td>
+                            <span class="badge bg-info text-white px-3 py-2" th:text="${reply.ticket.title}"></span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle bg-success me-2">
+                                    <span th:text="${#strings.substring(reply.staff.fullName, 0, 1)}"></span>
+                                </div>
+                                <span th:text="${reply.staff.fullName}"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-muted" th:text="${reply.replyContent}"></span>
+                        </td>
+                        <td>
+                                <span class="badge bg-light text-dark px-3 py-2">
+                                    <i class="bi bi-clock me-1"></i>
+                                    <span th:text="${reply.replyDate}"></span>
+                                </span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{'/replies/delete/' + ${reply.id}}"
+                                   class="btn-action btn-delete"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?')">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(replyList)}">
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox display-4 d-block mb-2"></i>
+                            Chưa có phản hồi nào
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <th>ID</th>
-
-            <th>Ticket</th>
-
-            <th>Nhân viên</th>
-
-            <th>Nội dung</th>
-
-            <th>Ngày phản hồi</th>
-
-            <th>Thao tác</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        <tr th:each="reply : ${replyList}">
-
-            <td th:text="${reply.id}"></td>
-
-            <td th:text="${reply.ticket.title}"></td>
-
-            <td th:text="${reply.staff.fullName}"></td>
-
-            <td th:text="${reply.replyContent}"></td>
-
-            <td th:text="${reply.replyDate}"></td>
-
-            <td>
-
-                <a th:href="@{'/replies/delete/' + ${reply.id}}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?')">
-
-                    Xóa
-
-                </a>
-
-            </td>
-
-        </tr>
-
-        </tbody>
-
-    </table>
+        <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center py-3">
+            <span class="text-muted">
+                <i class="bi bi-chat-left-text me-1 text-primary"></i>
+                Tổng số: <strong class="text-primary" th:text="${#lists.size(replyList)}">0</strong> phản hồi
+            </span>
+            <span class="text-muted small">
+                <i class="bi bi-clock me-1"></i>
+                <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+            </span>
+        </div>
+    </div>
 
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<style>
+    .avatar-circle {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: #fff;
+        flex-shrink: 0;
+    }
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0,0,0,0.02);
+    }
+    .table tbody tr:hover {
+        background-color: rgba(79, 172, 254, 0.08);
+    }
+    .badge {
+        font-weight: 500;
+        border-radius: 6px;
+        font-size: 0.85rem;
+    }
+
+    /* ===== BUTTON ACTION - GỌN ĐẸP ===== */
+    .btn-action {
+        padding: 4px 14px;
+        font-size: 0.78rem;
+        border-radius: 20px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .btn-action i {
+        font-size: 0.8rem;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    /* Nút Xóa - Màu đỏ */
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+    .btn-delete:hover {
+        background: #b02a37;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+    @media (max-width: 576px) {
+        .action-buttons {
+            flex-direction: column;
+            gap: 4px;
+        }
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
 
 </body>
 

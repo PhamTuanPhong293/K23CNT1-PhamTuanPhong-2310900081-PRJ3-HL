@@ -3,16 +3,15 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm"
      th:fragment="navbar">
 
-    <div class="container">
+    <div class="container-fluid px-4">
 
-        <a class="navbar-brand"
-           th:href="@{/}">
-
-            Customer Support
-
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+            <i class="bi bi-headset"></i>
+            Devmaster Support
         </a>
 
         <button class="navbar-toggler"
@@ -24,88 +23,70 @@
 
         </button>
 
-        <div class="collapse navbar-collapse"
-             id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav">
 
+            <!-- Menu -->
             <ul class="navbar-nav me-auto">
 
                 <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/}">
-
-                        Trang chủ
-
+                    <a class="nav-link" th:href="@{/}">
+                        <i class="bi bi-speedometer2"></i>
+                        Dashboard
                     </a>
-
                 </li>
 
                 <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/tickets}">
-
-                        Ticket
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/customers}">
-
+                    <a class="nav-link" th:href="@{/customers}">
+                        <i class="bi bi-people"></i>
                         Khách hàng
-
                     </a>
-
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/tickets}">
+                        <i class="bi bi-ticket"></i>
+                        Ticket
+                    </a>
+                </li>
 
-                    <a class="nav-link"
-                       th:href="@{/staff}">
-
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/staff}">
+                        <i class="bi bi-person-badge"></i>
                         Nhân viên
-
                     </a>
-
                 </li>
 
                 <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/faq}">
-
+                    <a class="nav-link" th:href="@{/faq}">
+                        <i class="bi bi-question-circle"></i>
                         FAQ
-
                     </a>
-
                 </li>
 
                 <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/replies}">
-
+                    <a class="nav-link" th:href="@{/replies}">
+                        <i class="bi bi-chat-left-text"></i>
                         Phản hồi
-
                     </a>
-
                 </li>
 
             </ul>
 
-            <ul class="navbar-nav">
+            <!-- User -->
+            <ul class="navbar-nav align-items-center">
 
-                <li class="nav-item"
+                <li class="nav-item me-3"
                     th:if="${session.loggedUser != null}">
 
-                    <span class="navbar-text text-white me-3">
+                    <span class="text-white">
+
+                        <i class="bi bi-person-circle fs-5"></i>
 
                         Xin chào,
-                        <strong th:text="${session.loggedUser.fullName}"></strong>
+
+                        <strong th:text="${session.loggedUser.fullName}">
+                            Admin
+                        </strong>
 
                     </span>
 
@@ -114,8 +95,10 @@
                 <li class="nav-item"
                     th:if="${session.loggedUser != null}">
 
-                    <a class="btn btn-danger btn-sm"
+                    <a class="btn btn-outline-light"
                        th:href="@{/logout}">
+
+                        <i class="bi bi-box-arrow-right"></i>
 
                         Đăng xuất
 
@@ -126,8 +109,10 @@
                 <li class="nav-item"
                     th:if="${session.loggedUser == null}">
 
-                    <a class="btn btn-success btn-sm"
+                    <a class="btn btn-success"
                        th:href="@{/login}">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
 
                         Đăng nhập
 

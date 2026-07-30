@@ -3,9 +3,9 @@ package com.controller;
 import com.model.Customer;
 import com.model.SupportTicket;
 import com.service.CustomerService;
-import com.service.SupportTicketService;
 import com.service.FAQService;
 import com.service.StaffService;
+import com.service.SupportTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,43 +33,22 @@ public class CustomerSupportController {
     public String home(Model model) {
 
         long customerCount = customerService.getAllCustomers().size();
-
         long ticketCount = ticketService.getAllTickets().size();
-
         long staffCount = staffService.getAllStaff().size();
-
         long faqCount = faqService.getAllFAQs().size();
 
-        long openCount =
-                ticketService.getAllTickets()
-                        .stream()
-                        .filter(t -> "OPEN".equalsIgnoreCase(t.getStatus()))
-                        .count();
-
-        long processingCount =
-                ticketService.getAllTickets()
-                        .stream()
-                        .filter(t -> "PROCESSING".equalsIgnoreCase(t.getStatus()))
-                        .count();
-
-        long closedCount =
-                ticketService.getAllTickets()
-                        .stream()
-                        .filter(t -> "CLOSED".equalsIgnoreCase(t.getStatus()))
-                        .count();
+        long openCount = ticketService.countOpenTickets();
+        long processingCount = ticketService.countProcessingTickets();
+        long closedCount = ticketService.countClosedTickets();
 
         double openPercent = 0;
         double processingPercent = 0;
         double closedPercent = 0;
 
         if (ticketCount > 0) {
-
-            openPercent = openCount * 100.0 / ticketCount;
-
-            processingPercent = processingCount * 100.0 / ticketCount;
-
-            closedPercent = closedCount * 100.0 / ticketCount;
-
+            openPercent = (openCount * 100.0) / ticketCount;
+            processingPercent = (processingCount * 100.0) / ticketCount;
+            closedPercent = (closedCount * 100.0) / ticketCount;
         }
 
         model.addAttribute("customerCount", customerCount);
@@ -84,6 +63,9 @@ public class CustomerSupportController {
         model.addAttribute("openPercent", openPercent);
         model.addAttribute("processingPercent", processingPercent);
         model.addAttribute("closedPercent", closedPercent);
+
+        // 5 Ticket mới nhất
+        model.addAttribute("latestTickets", ticketService.getLatestTickets());
 
         return "index";
     }
@@ -106,7 +88,6 @@ public class CustomerSupportController {
     public String showCreateForm(Model model) {
 
         model.addAttribute("ticket", new SupportTicket());
-
         model.addAttribute("customers", customerService.getAllCustomers());
 
         return "ticket-form";
@@ -135,7 +116,6 @@ public class CustomerSupportController {
     public String editTicket(@PathVariable Long id, Model model) {
 
         model.addAttribute("ticket", ticketService.getTicketById(id));
-
         model.addAttribute("customers", customerService.getAllCustomers());
 
         return "ticket-form";

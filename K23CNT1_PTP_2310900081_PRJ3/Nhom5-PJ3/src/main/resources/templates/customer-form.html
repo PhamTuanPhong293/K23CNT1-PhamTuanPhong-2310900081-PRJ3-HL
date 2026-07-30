@@ -7,67 +7,113 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="card shadow">
+    <!-- Header -->
+    <div class="mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <h2 class="fw-bold text-white mb-0">
+            <i class="bi bi-person-plus me-2"></i>
+            <span th:if="${customer.id != null}">Cập nhật khách hàng</span>
+            <span th:if="${customer.id == null}">Thêm khách hàng mới</span>
+        </h2>
+        <p class="text-white-50 mb-0">Nhập thông tin khách hàng</p>
+    </div>
 
-        <div class="card-header bg-primary text-white">
+    <div class="row">
+        <div class="col-xl-8 col-lg-10">
 
-            <h3>Thông tin khách hàng</h3>
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: #4facfe;">
+                    <h5 class="mb-0 text-white">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Thông tin khách hàng
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <form th:action="@{/customers/save}"
+                          th:object="${customer}"
+                          method="post">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <!-- Họ và tên -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i>
+                                Họ và tên <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                   class="form-control form-control-lg"
+                                   th:field="*{fullName}"
+                                   placeholder="Nhập họ và tên"
+                                   required>
+                            <div class="form-text">Ví dụ: Nguyễn Văn A</div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-1 text-primary"></i>
+                                Email <span class="text-danger">*</span>
+                            </label>
+                            <input type="email"
+                                   class="form-control form-control-lg"
+                                   th:field="*{email}"
+                                   placeholder="example@email.com"
+                                   required>
+                            <div class="form-text">Email sẽ dùng để liên hệ với khách hàng</div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-check-lg me-2"></i>
+                                <span th:if="${customer.id != null}">Cập nhật</span>
+                                <span th:if="${customer.id == null}">Lưu</span>
+                            </button>
+                            <a th:href="@{/customers}" class="btn btn-secondary btn-lg px-4">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
 
         </div>
 
-        <div class="card-body">
-
-            <form th:action="@{/customers/save}"
-                  th:object="${customer}"
-                  method="post">
-
-                <input type="hidden" th:field="*{id}">
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Họ và tên
-                    </label>
-
-                    <input type="text"
-                           class="form-control"
-                           th:field="*{fullName}"
-                           required>
-
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-10 mt-4 mt-xl-0">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: #fa709a;">
+                    <h6 class="mb-0 text-white fw-bold">
+                        <i class="bi bi-lightbulb me-2"></i>Lưu ý
+                    </h6>
                 </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Email
-                    </label>
-
-                    <input type="email"
-                           class="form-control"
-                           th:field="*{email}"
-                           required>
-
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Nhập đầy đủ thông tin
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Email phải đúng định dạng
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Tên không được để trống
+                        </li>
+                    </ul>
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Các trường có <span class="text-danger">*</span> là bắt buộc
+                    </div>
                 </div>
-
-                <button class="btn btn-success">
-
-                    Lưu
-
-                </button>
-
-                <a th:href="@{/customers}"
-                   class="btn btn-secondary">
-
-                    Quay lại
-
-                </a>
-
-            </form>
-
+            </div>
         </div>
-
     </div>
 
 </div>

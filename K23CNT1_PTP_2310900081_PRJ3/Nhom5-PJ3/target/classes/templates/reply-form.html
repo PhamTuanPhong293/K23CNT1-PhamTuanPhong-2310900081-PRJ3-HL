@@ -2,104 +2,144 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header :: header('Phản hồi Ticket')"></head>
-<link rel="stylesheet" th:href="@{/css/style.css}">
 
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="card shadow">
+    <!-- Header với gradient -->
+    <div class="mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <h2 class="fw-bold text-white mb-0">
+            <i class="bi bi-chat-plus me-2"></i>
+            Thêm phản hồi mới
+        </h2>
+        <p class="text-white-50 mb-0">Phản hồi cho Ticket hỗ trợ khách hàng</p>
+    </div>
 
-        <div class="card-header bg-info text-white">
+    <div class="row">
+        <div class="col-xl-8 col-lg-10">
 
-            <h3>Thêm phản hồi Ticket</h3>
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: #4facfe;">
+                    <h5 class="mb-0 text-white">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Thông tin phản hồi
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <form th:action="@{/replies/save}"
+                          th:object="${reply}"
+                          method="post">
+
+                        <!-- Ticket -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-ticket me-1 text-primary"></i>
+                                Ticket <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select form-select-lg"
+                                    th:field="*{ticket}"
+                                    required>
+                                <option value="">-- Chọn Ticket --</option>
+                                <option th:each="ticket : ${tickets}"
+                                        th:value="${ticket.id}"
+                                        th:text="${ticket.title}">
+                                </option>
+                            </select>
+                            <div class="form-text">Chọn Ticket cần phản hồi</div>
+                        </div>
+
+                        <!-- Nhân viên -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-person-badge me-1 text-primary"></i>
+                                Nhân viên <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select form-select-lg"
+                                    th:field="*{staff}"
+                                    required>
+                                <option value="">-- Chọn nhân viên --</option>
+                                <option th:each="staff : ${staffList}"
+                                        th:value="${staff.id}"
+                                        th:text="${staff.fullName}">
+                                </option>
+                            </select>
+                            <div class="form-text">Chọn nhân viên phụ trách</div>
+                        </div>
+
+                        <!-- Nội dung phản hồi -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-chat-left-text me-1 text-primary"></i>
+                                Nội dung phản hồi <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: #fff; align-items: start; padding-top: 12px;">
+                                    <i class="bi bi-chat"></i>
+                                </span>
+                                <textarea class="form-control"
+                                          rows="6"
+                                          th:field="*{replyContent}"
+                                          placeholder="Nhập nội dung phản hồi chi tiết..."
+                                          required></textarea>
+                            </div>
+                            <div class="form-text">Phản hồi nên rõ ràng và chi tiết</div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-send me-2"></i>Gửi phản hồi
+                            </button>
+                            <a th:href="@{/replies}" class="btn btn-secondary btn-lg px-4">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
 
         </div>
 
-        <div class="card-body">
-
-            <form th:action="@{/replies/save}"
-                  th:object="${reply}"
-                  method="post">
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Ticket
-
-                    </label>
-
-                    <select class="form-select"
-                            th:field="*{ticket}"
-                            required>
-
-                        <option th:each="ticket : ${tickets}"
-                                th:value="${ticket.id}"
-                                th:text="${ticket.title}">
-                        </option>
-
-                    </select>
-
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-10 mt-4 mt-xl-0">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);">
+                    <h6 class="mb-0 text-white fw-bold">
+                        <i class="bi bi-lightbulb me-2"></i>Lưu ý
+                    </h6>
                 </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Nhân viên
-
-                    </label>
-
-                    <select class="form-select"
-                            th:field="*{staff}"
-                            required>
-
-                        <option th:each="staff : ${staffList}"
-                                th:value="${staff.id}"
-                                th:text="${staff.fullName}">
-                        </option>
-
-                    </select>
-
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Chọn đúng Ticket cần phản hồi
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Chọn nhân viên phụ trách
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Nội dung phản hồi rõ ràng
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Phản hồi kịp thời cho khách hàng
+                        </li>
+                    </ul>
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Các trường có <span class="text-danger">*</span> là bắt buộc
+                    </div>
                 </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Nội dung phản hồi
-
-                    </label>
-
-                    <textarea class="form-control"
-                              rows="5"
-                              th:field="*{replyContent}"
-                              required>
-
-                    </textarea>
-
-                </div>
-
-                <button class="btn btn-info">
-
-                    Lưu phản hồi
-
-                </button>
-
-                <a th:href="@{/replies}"
-                   class="btn btn-secondary">
-
-                    Quay lại
-
-                </a>
-
-            </form>
-
+            </div>
         </div>
-
     </div>
 
 </div>

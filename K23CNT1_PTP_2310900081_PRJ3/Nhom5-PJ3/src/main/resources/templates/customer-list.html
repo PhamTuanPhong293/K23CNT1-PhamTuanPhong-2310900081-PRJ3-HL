@@ -7,77 +7,187 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="d-flex justify-content-between mb-3">
-
-        <h2>Danh sách khách hàng</h2>
-
-        <a th:href="@{/customers/new}"
-           class="btn btn-success">
-
-            + Thêm khách hàng
-
+    <!-- Header với gradient -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div>
+            <h2 class="fw-bold text-white mb-0">
+                <i class="bi bi-people-fill me-2"></i>Danh sách khách hàng
+            </h2>
+            <p class="text-white-50 mb-0">Quản lý thông tin khách hàng</p>
+        </div>
+        <a th:href="@{/customers/new}" class="btn btn-light btn-lg shadow">
+            <i class="bi bi-plus-circle me-2 text-success"></i>Thêm khách hàng
         </a>
-
     </div>
 
-    <table class="table table-bordered table-hover">
+    <!-- Card -->
+    <div class="card shadow-lg border-0 rounded">
 
-        <thead class="table-dark">
+        <div class="card-header py-3" style="background: #2b5876;">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-white">
+                    <i class="bi bi-table me-2"></i>Danh sách khách hàng
+                </span>
+                <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                    <i class="bi bi-people me-1"></i>
+                    <span th:text="${#lists.size(customers)}">0</span> khách hàng
+                </span>
+            </div>
+        </div>
 
-        <tr>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;" class="text-center">#ID</th>
+                        <th>Họ và tên</th>
+                        <th>Email</th>
+                        <th style="width: 180px;" class="text-center">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="customer : ${customers}">
+                        <td class="text-center fw-bold text-primary" th:text="${customer.id}"></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle bg-primary me-2">
+                                    <span th:text="${#strings.substring(customer.fullName, 0, 1)}"></span>
+                                </div>
+                                <span th:text="${customer.fullName}"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="'mailto:' + ${customer.email}"
+                               class="text-decoration-none text-primary"
+                               th:text="${customer.email}"></a>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{'/customers/edit/' + ${customer.id}}"
+                                   class="btn-action btn-edit">
+                                    <i class="bi bi-pencil"></i> Sửa
+                                </a>
+                                <a th:href="@{'/customers/delete/' + ${customer.id}}"
+                                   class="btn-action btn-delete"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?')">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(customers)}">
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox display-4 d-block mb-2"></i>
+                            Chưa có khách hàng nào
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <th>ID</th>
-
-            <th>Họ và tên</th>
-
-            <th>Email</th>
-
-            <th>Thao tác</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        <tr th:each="customer : ${customers}">
-
-            <td th:text="${customer.id}"></td>
-
-            <td th:text="${customer.fullName}"></td>
-
-            <td th:text="${customer.email}"></td>
-
-            <td>
-
-                <a th:href="@{'/customers/edit/' + ${customer.id}}"
-                   class="btn btn-warning btn-sm">
-
-                    Sửa
-
-                </a>
-
-                <a th:href="@{'/customers/delete/' + ${customer.id}}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?')">
-
-                    Xóa
-
-                </a>
-
-            </td>
-
-        </tr>
-
-        </tbody>
-
-    </table>
+        <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center py-3">
+            <span class="text-muted">
+                <i class="bi bi-people me-1 text-primary"></i>
+                Tổng số: <strong class="text-primary" th:text="${#lists.size(customers)}">0</strong> khách hàng
+            </span>
+            <span class="text-muted small">
+                <i class="bi bi-clock me-1"></i>
+                <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+            </span>
+        </div>
+    </div>
 
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<style>
+    .avatar-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: #fff;
+        flex-shrink: 0;
+    }
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0,0,0,0.02);
+    }
+    .table tbody tr:hover {
+        background-color: rgba(102, 126, 234, 0.08);
+    }
+
+    /* ===== BUTTON ACTION - GỌN ĐẸP ===== */
+    .btn-action {
+        padding: 4px 14px;
+        font-size: 0.78rem;
+        border-radius: 20px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .btn-action i {
+        font-size: 0.8rem;
+    }
+    .btn-action:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    /* Nút Sửa - Màu xanh dương */
+    .btn-edit {
+        background: #0d6efd;
+        color: #fff;
+    }
+    .btn-edit:hover {
+        background: #0a58ca;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+    }
+
+    /* Nút Xóa - Màu đỏ */
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+    .btn-delete:hover {
+        background: #b02a37;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex-wrap: nowrap;
+    }
+    @media (max-width: 576px) {
+        .action-buttons {
+            flex-direction: column;
+            gap: 4px;
+        }
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
 
 </body>
 

@@ -2,79 +2,132 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header :: header('Thêm FAQ')"></head>
-<link rel="stylesheet" th:href="@{/css/style.css}">
 
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-5">
+<div class="container-fluid px-4 mt-4">
 
-    <div class="card shadow">
+    <!-- Header với gradient -->
+    <div class="mb-4 p-4 rounded"
+         style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <h2 class="fw-bold text-white mb-0">
+            <i class="bi bi-question-circle me-2"></i>
+            <span th:if="${faq.id != null}">Cập nhật FAQ</span>
+            <span th:if="${faq.id == null}">Thêm FAQ mới</span>
+        </h2>
+        <p class="text-white-50 mb-0">Nhập câu hỏi và câu trả lời</p>
+    </div>
 
-        <div class="card-header bg-success text-white">
+    <div class="row">
+        <div class="col-xl-8 col-lg-10">
 
-            <h3>Thông tin FAQ</h3>
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: #f5576c;">
+                    <h5 class="mb-0 text-white">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Thông tin FAQ
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <form th:action="@{/faq/save}"
+                          th:object="${faq}"
+                          method="post">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <!-- Câu hỏi -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-question-circle me-1 text-primary"></i>
+                                Câu hỏi <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff;">
+                                    <i class="bi bi-question"></i>
+                                </span>
+                                <input type="text"
+                                       class="form-control"
+                                       th:field="*{question}"
+                                       placeholder="Nhập câu hỏi thường gặp"
+                                       required>
+                            </div>
+                            <div class="form-text">Ví dụ: Làm sao để tạo tài khoản?</div>
+                        </div>
+
+                        <!-- Câu trả lời -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-chat-left-text me-1 text-primary"></i>
+                                Câu trả lời <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: #fff;">
+                                    <i class="bi bi-chat"></i>
+                                </span>
+                                <textarea class="form-control"
+                                          rows="5"
+                                          th:field="*{answer}"
+                                          placeholder="Nhập câu trả lời chi tiết"
+                                          required></textarea>
+                            </div>
+                            <div class="form-text">Câu trả lời nên rõ ràng và chi tiết</div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-check-lg me-2"></i>
+                                <span th:if="${faq.id != null}">Cập nhật</span>
+                                <span th:if="${faq.id == null}">Lưu</span>
+                            </button>
+                            <a th:href="@{/faq}" class="btn btn-secondary btn-lg px-4">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
 
         </div>
 
-        <div class="card-body">
-
-            <form th:action="@{/faq/save}"
-                  th:object="${faq}"
-                  method="post">
-
-                <input type="hidden"
-                       th:field="*{id}">
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Câu hỏi
-
-                    </label>
-
-                    <input type="text"
-                           class="form-control"
-                           th:field="*{question}"
-                           required>
-
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-10 mt-4 mt-xl-0">
+            <div class="card shadow-lg border-0 rounded">
+                <div class="card-header py-3" style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);">
+                    <h6 class="mb-0 text-white fw-bold">
+                        <i class="bi bi-lightbulb me-2"></i>Lưu ý
+                    </h6>
                 </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Câu trả lời
-
-                    </label>
-
-                    <textarea class="form-control"
-                              rows="6"
-                              th:field="*{answer}"
-                              required>
-                    </textarea>
-
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Câu hỏi ngắn gọn, rõ ràng
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Câu trả lời đầy đủ, chi tiết
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Sử dụng ngôn ngữ dễ hiểu
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Cập nhật thường xuyên
+                        </li>
+                    </ul>
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Các trường có <span class="text-danger">*</span> là bắt buộc
+                    </div>
                 </div>
-
-                <button class="btn btn-success">
-
-                    Lưu
-
-                </button>
-
-                <a th:href="@{/faq}"
-                   class="btn btn-secondary">
-
-                    Quay lại
-
-                </a>
-
-            </form>
-
+            </div>
         </div>
-
     </div>
 
 </div>

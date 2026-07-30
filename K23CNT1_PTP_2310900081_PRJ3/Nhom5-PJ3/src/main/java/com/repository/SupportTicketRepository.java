@@ -18,4 +18,10 @@ public interface SupportTicketRepository extends JpaRepository<SupportTicket, Lo
     // Tìm theo độ ưu tiên
     List<SupportTicket> findByPriority(String priority);
 
+    // Đếm Ticket theo trạng thái
+    long countByStatus(String status);
+
+    // Lấy 5 Ticket mới nhất
+    List<SupportTicket> findTop5ByOrderByIdDesc();
+
 }
